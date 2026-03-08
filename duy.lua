@@ -17,7 +17,6 @@ local DUY = {
     AimbotTarget = nil
 }
 
--- Windows XP Color Scheme
 local Colors = {
     WindowBackground = Color3.fromRGB(236, 233, 216),
     WindowBorder = Color3.fromRGB(0, 84, 227),
@@ -34,9 +33,6 @@ local Colors = {
 }
 
 
-
-
--- Services
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -52,7 +48,6 @@ local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local Camera = Workspace.CurrentCamera
 
--- Utility Functions
 local function CreateShadow(parent, depth)
     depth = depth or 2
     
@@ -81,7 +76,6 @@ local function CreateXPButton(parent, text, position, size, callback)
     button.TextSize = 14
     button.Parent = parent
     
-    -- XP Button Border
     local topBorder = Instance.new("Frame")
     topBorder.Size = UDim2.new(1, 0, 0, 1)
     topBorder.Position = UDim2.new(0, 0, 0, 0)
@@ -131,13 +125,11 @@ local function CreateXPButton(parent, text, position, size, callback)
     return button
 end
 
--- Main GUI Creation
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "DustysUniversalYield"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
--- Protection
 if gethui then
     ScreenGui.Parent = gethui()
 elseif syn and syn.protect_gui then
@@ -147,17 +139,15 @@ else
     ScreenGui.Parent = CoreGui
 end
 
--- Main Window Frame
 local MainWindow = Instance.new("Frame")
 MainWindow.Name = "MainWindow"
 MainWindow.Size = UDim2.new(0, 600, 0, 400)
-MainWindow.Position = UDim2.new(1, -620, 1, -420) -- Bottom right corner
+MainWindow.Position = UDim2.new(1, -620, 1, -420)
 MainWindow.BackgroundColor3 = Colors.WindowBackground
 MainWindow.BorderSizePixel = 0
 MainWindow.ClipsDescendants = true
 MainWindow.Parent = ScreenGui
 
--- Window Border (outer frame)
 local WindowBorder = Instance.new("Frame")
 WindowBorder.Name = "Border"
 WindowBorder.Size = UDim2.new(1, 6, 1, 6)
@@ -167,7 +157,6 @@ WindowBorder.BorderSizePixel = 0
 WindowBorder.ZIndex = MainWindow.ZIndex - 1
 WindowBorder.Parent = MainWindow
 
--- Title Bar
 local TitleBar = Instance.new("Frame")
 TitleBar.Name = "TitleBar"
 TitleBar.Size = UDim2.new(1, 0, 0, 30)
@@ -175,7 +164,6 @@ TitleBar.BackgroundColor3 = Colors.TitleBar
 TitleBar.BorderSizePixel = 0
 TitleBar.Parent = MainWindow
 
--- Title Bar Gradient (XP style)
 local TitleGradient = Instance.new("UIGradient")
 TitleGradient.Color = ColorSequence.new{
     ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 88, 238)),
@@ -184,7 +172,6 @@ TitleGradient.Color = ColorSequence.new{
 TitleGradient.Rotation = 90
 TitleGradient.Parent = TitleBar
 
--- Title Text
 local TitleText = Instance.new("TextLabel")
 TitleText.Size = UDim2.new(1, -100, 1, 0)
 TitleText.Position = UDim2.new(0, 8, 0, 0)
@@ -196,7 +183,6 @@ TitleText.TextSize = 14
 TitleText.TextXAlignment = Enum.TextXAlignment.Left
 TitleText.Parent = TitleBar
 
--- Window Control Buttons (Close, Minimize)
 local CloseButton = CreateXPButton(TitleBar, "×", UDim2.new(1, -25, 0, 3), UDim2.new(0, 22, 0, 24), function()
     ScreenGui:Destroy()
 end)
@@ -229,7 +215,6 @@ end)
 MinimizeButton.TextSize = 18
 MinimizeButton.Font = Enum.Font.SourceSansBold
 
--- Dragging Functionality
 local dragging, dragInput, dragStart, startPos
 
 TitleBar.InputBegan:Connect(function(input)
@@ -259,7 +244,6 @@ UserInputService.InputChanged:Connect(function(input)
     end
 end)
 
--- Resizing Functionality
 local resizing = false
 local resizeStart, resizeStartSize
 
@@ -311,7 +295,6 @@ UserInputService.InputChanged:Connect(function(input)
     end
 end)
 
--- Tab System
 local TabContainer = Instance.new("Frame")
 TabContainer.Name = "TabContainer"
 TabContainer.Size = UDim2.new(1, 0, 0, 28)
@@ -329,7 +312,6 @@ ContentFrame.BorderColor3 = Colors.ButtonShadow
 ContentFrame.BorderSizePixel = 1
 ContentFrame.Parent = MainWindow
 
--- Tab System Implementation
 local Tabs = {}
 local CurrentTab = nil
 
@@ -345,7 +327,6 @@ local function CreateTab(name, content)
     tabButton.TextSize = 14
     tabButton.Parent = TabContainer
     
-    -- Tab borders
     local topBorder = Instance.new("Frame")
     topBorder.Size = UDim2.new(1, 0, 0, 1)
     topBorder.BackgroundColor3 = Colors.ButtonHighlight
@@ -393,7 +374,6 @@ local function CreateTab(name, content)
     return contentContainer
 end
 
--- Commands Tab
 local CommandsTab = CreateTab("Commands", nil)
 
 local CommandsScrollContainer = Instance.new("Frame")
@@ -428,7 +408,6 @@ CommandInput.TextXAlignment = Enum.TextXAlignment.Left
 CommandInput.ZIndex = 10
 CommandInput.Parent = CommandsTab
 
--- Script Executor Tab
 local ExecutorTab = CreateTab("Executor", nil)
 
 local ScriptBox = Instance.new("TextBox")
@@ -461,7 +440,6 @@ local ClearButton = CreateXPButton(ExecutorTab, "Clear", UDim2.new(0, 90, 1, -27
     ScriptBox.Text = ""
 end)
 
--- Player Tab
 local PlayerTab = CreateTab("Player", nil)
 
 local PlayerSettings = Instance.new("Frame")
@@ -562,7 +540,6 @@ CreateSlider(PlayerSettings, "FOV", 70, 120, 70, function(value)
     Camera.FieldOfView = value
 end)
 
--- ESP Tab
 local ESPTab = CreateTab("ESP", nil)
 
 local ESPControls = Instance.new("Frame")
@@ -638,7 +615,6 @@ CreateToggle(ESPControls, "Tracers", false, function(enabled)
     DUY.Settings.Tracers = enabled
 end)
 
--- Remote Spy Tab
 local RemoteTab = CreateTab("Remotes", nil)
 
 local RemoteList = Instance.new("ScrollingFrame")
@@ -661,7 +637,6 @@ local ClearRemotesButton = CreateXPButton(RemoteTab, "Clear Logs", UDim2.new(0, 
     end
 end)
 
--- Game Scripts Tab
 local GameScriptsTab = CreateTab("Game Scripts", nil)
 
 local GameScriptsList = Instance.new("Frame")
@@ -685,12 +660,10 @@ function DUY:LoadGameScripts()
         print("[DUY ScriptBlox] Game Name:", gameName)
     end)
     
-    -- Encode the game name manually (replace spaces with %20)
     local encodedName = gameName:gsub(" ", "%%20"):gsub("[^%w%%]", function(c)
         return string.format("%%%02X", string.byte(c))
     end)
     
-    -- Try to fetch game-specific scripts first
     print("[DUY ScriptBlox] Attempting to fetch game-specific scripts...")
     local success, response = pcall(function()
         local url = "https://scriptblox.com/api/script/fetch?q=" .. encodedName .. "&max=20"
@@ -738,7 +711,6 @@ function DUY:LoadGameScripts()
         warn("[DUY ScriptBlox] HTTP request failed:", tostring(response))
     end
     
-    -- If no game-specific scripts found, load universal scripts
     print("[DUY ScriptBlox] Loading universal scripts as fallback...")
     local success2, response2 = pcall(function()
         local url = "https://scriptblox.com/api/script/fetch?page=1&max=20"
@@ -759,7 +731,6 @@ function DUY:LoadGameScripts()
             if data2 and data2.result and data2.result.scripts then
                 print("[DUY ScriptBlox] Universal scripts found:", #data2.result.scripts)
                 
-                -- Add a label indicating these are universal scripts
                 local infoLabel = Instance.new("TextLabel")
                 infoLabel.Size = UDim2.new(1, 0, 0, 30)
                 infoLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 200)
@@ -787,7 +758,6 @@ function DUY:LoadGameScripts()
     else
         warn("[DUY ScriptBlox] Universal HTTP request failed:", tostring(response2))
         
-        -- Show error in UI
         local errorLabel = Instance.new("TextLabel")
         errorLabel.Size = UDim2.new(1, -20, 0, 50)
         errorLabel.Position = UDim2.new(0, 10, 0, 10)
@@ -865,16 +835,13 @@ function DUY:ShowConfirmationDialog(scriptData)
     local yesBtn = CreateXPButton(confirmFrame, "Yes, Execute", UDim2.new(0, 10, 1, -35), UDim2.new(0, 120, 0, 25), function()
         confirmFrame:Destroy()
         
-        -- Fetch and execute the script
         local scriptUrl = scriptData.script
         if not scriptUrl then
             warn("[DUY] No script URL found")
             return
         end
         
-        -- If it's a ScriptBlox URL, we might need to fetch the raw script
         if scriptUrl:find("scriptblox.com") and not scriptUrl:find("/raw/") then
-            -- Try to get the slug and fetch the raw script
             if scriptData.slug then
                 scriptUrl = "https://rawscripts.net/raw/" .. scriptData.slug
             end
@@ -997,7 +964,6 @@ function DUY:CreateGameScriptButton(scriptData)
     GameScriptsTab.CanvasSize = UDim2.new(1, 0, 0, GameScriptsLayout.AbsoluteContentSize.Y + 10)
 end
 
--- Settings Tab
 local SettingsTab = CreateTab("Settings", nil)
 
 local SettingsList = Instance.new("Frame")
@@ -1009,7 +975,6 @@ local SettingsLayout = Instance.new("UIListLayout")
 SettingsLayout.Padding = UDim.new(0, 10)
 SettingsLayout.Parent = SettingsList
 
--- Command Prefix Setting
 local prefixContainer = Instance.new("Frame")
 prefixContainer.Size = UDim2.new(1, 0, 0, 50)
 prefixContainer.BackgroundTransparency = 1
@@ -1052,7 +1017,6 @@ CreateToggle(SettingsList, "Anti-Ban Protection", true, function(enabled)
 end)
 
 
-
 function DUY:AddCommand(name, aliases, description, callback)
     local cmd = {
         Name = name:lower(),
@@ -1062,7 +1026,6 @@ function DUY:AddCommand(name, aliases, description, callback)
     }
     table.insert(self.Commands, cmd)
     
-    -- Add to commands list UI
     local cmdFrame = Instance.new("Frame")
     cmdFrame.Size = UDim2.new(1, -20, 0, 60)
     cmdFrame.BackgroundColor3 = Colors.ButtonFace
@@ -1094,7 +1057,6 @@ function DUY:AddCommand(name, aliases, description, callback)
     cmdDesc.TextWrapped = true
     cmdDesc.Parent = cmdFrame
     
-    -- Update canvas size
     spawn(function()
         wait()
         CommandsList.Size = UDim2.new(1, -10, 0, CommandsListLayout.AbsoluteContentSize.Y)
@@ -1149,7 +1111,6 @@ CommandInput.FocusLost:Connect(function(enterPressed)
     end
 end)
 
--- ESP System
 function DUY:CreateESP(player)
     if player == LocalPlayer then return end
     
@@ -1164,7 +1125,6 @@ function DUY:CreateESP(player)
         
         local hrp = player.Character.HumanoidRootPart
         
-        -- Box ESP
         local box = Drawing.new("Square")
         box.Visible = false
         box.Color = Color3.fromRGB(255, 0, 0)
@@ -1172,7 +1132,6 @@ function DUY:CreateESP(player)
         box.Transparency = 1
         box.Filled = false
         
-        -- Name
         local nameTag = Drawing.new("Text")
         nameTag.Visible = false
         nameTag.Color = Color3.fromRGB(255, 255, 255)
@@ -1181,7 +1140,6 @@ function DUY:CreateESP(player)
         nameTag.Outline = true
         nameTag.Text = player.Name
         
-        -- Distance
         local distanceTag = Drawing.new("Text")
         distanceTag.Visible = false
         distanceTag.Color = Color3.fromRGB(255, 255, 255)
@@ -1189,7 +1147,6 @@ function DUY:CreateESP(player)
         distanceTag.Center = true
         distanceTag.Outline = true
         
-        -- Health Bar
         local healthBarOutline = Drawing.new("Square")
         healthBarOutline.Visible = false
         healthBarOutline.Color = Color3.fromRGB(0, 0, 0)
@@ -1204,7 +1161,6 @@ function DUY:CreateESP(player)
         healthBarFill.Transparency = 0.5
         healthBarFill.Filled = true
         
-        -- Tracer
         local tracer = Drawing.new("Line")
         tracer.Visible = false
         tracer.Color = Color3.fromRGB(255, 0, 0)
@@ -1348,7 +1304,6 @@ pcall(function()
     end)
 end)
 
--- Unified Hook System (Anti-Kick, Anti-Ban, Remote Spy)
 local RemoteLogs = {}
 DUY.Settings.RemoteSpy = true
 DUY.Settings.AntiKick = true
@@ -1418,7 +1373,6 @@ local function LogRemote(remote, method, args)
     end)
 end
 
--- Anti-AFK
 if LocalPlayer then
     LocalPlayer.Idled:Connect(function()
         if DUY.Settings.AntiKick then
@@ -1429,7 +1383,6 @@ if LocalPlayer then
     end)
 end
 
--- Single unified hook for everything
 if hookmetamethod then
     pcall(function()
         local oldmt
@@ -1437,13 +1390,11 @@ if hookmetamethod then
             local method = getnamecallmethod()
             local args = {...}
             
-            -- Anti-Kick: Block kick attempts
             if DUY.Settings.AntiKick and method == "Kick" then
                 warn("[DUY] Blocked kick attempt!")
                 return
             end
             
-            -- Anti-Ban: Block suspicious remotes
             if DUY.Settings.AntiBan and (method == "FireServer" or method == "InvokeServer") then
                 if self and self.Name then
                     local remoteName = self.Name:lower()
@@ -1454,7 +1405,6 @@ if hookmetamethod then
                 end
             end
             
-            -- Remote Spy: Log remotes
             if method == "FireServer" or method == "InvokeServer" then
                 spawn(function()
                     pcall(function()
@@ -1474,12 +1424,9 @@ else
     warn("[DUY] Protection features not available (hookmetamethod not found)")
 end
 
--- FE "Bypass" Workarounds
 local FEBypass = {}
 
 function FEBypass:ToolToCharacter(tool)
-    -- Uses tools/accessories as "anchors" for client-side rendered objects
-    -- These can replicate visually to other players in some games
     if not tool:IsA("Tool") then return end
     
     tool.Parent = LocalPlayer.Character
@@ -1490,7 +1437,6 @@ function FEBypass:ToolToCharacter(tool)
 end
 
 function FEBypass:CreateFakeCharacter()
-    -- Creates a client-side character clone for animations
     local fakeChar = LocalPlayer.Character:Clone()
     fakeChar.Parent = Workspace
     fakeChar.Name = "FakeCharacter"
@@ -1506,14 +1452,11 @@ function FEBypass:CreateFakeCharacter()
 end
 
 function FEBypass:ReplicatePosition(target)
-    -- Attempts to replicate position through HumanoidRootPart manipulation
-    -- Works in some games with specific network ownership
     if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
         LocalPlayer.Character.HumanoidRootPart.CFrame = target
     end
 end
 
--- Core Commands
 DUY:AddCommand("fly", {"f"}, "Toggle flight mode with WASD controls", function(args)
     local speed = tonumber(args[1]) or 50
     
@@ -1826,7 +1769,6 @@ DUY:AddCommand("bring", {}, "Bring a player to you (FE limited, visual only)", f
     
     if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
         if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
-            -- Client-side only, creates the illusion
             targetPlayer.Character.HumanoidRootPart.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame
         end
     end
@@ -1942,7 +1884,6 @@ DUY:AddCommand("antiban", {"ab"}, "Toggle anti-ban protection", function(args)
     print("[DUY] Anti-Ban:", DUY.Settings.AntiBan and "Enabled" or "Disabled")
 end)
 
--- Activate first tab
 if #Tabs > 0 then
     for _, tab in pairs(Tabs) do
         tab.Button.BackgroundColor3 = Colors.UnselectedTab
@@ -1953,7 +1894,6 @@ if #Tabs > 0 then
     CurrentTab = Tabs[1].Content
 end
 
--- Notification System
 local NotificationFrame = Instance.new("Frame")
 NotificationFrame.Size = UDim2.new(0, 300, 0, 60)
 NotificationFrame.Position = UDim2.new(0.5, -150, 0, -70)
@@ -1980,21 +1920,17 @@ NotificationText.TextSize = 16
 NotificationText.TextWrapped = true
 NotificationText.Parent = NotificationFrame
 
--- Slide in notification
 TweenService:Create(NotificationFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
     Position = UDim2.new(0.5, -150, 0, 20)
 }):Play()
 
 wait(3)
 
--- Slide out notification
 TweenService:Create(NotificationFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
     Position = UDim2.new(0.5, -150, 0, -70)
 }):Play()
 
--- Print confirmation
 print("[DUY] Dusty's Universal Yield v1.0.0 loaded successfully!")
--- Load game-specific scripts
 spawn(function()
     wait(2)
     print("[DUY] Loading game scripts from ScriptBlox...")
